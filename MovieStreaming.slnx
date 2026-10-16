@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="MovieStreaming.csproj" />
+  <Project Path="MovieStreaming.Tests/MovieStreaming.Tests.csproj" />
+</Solution>

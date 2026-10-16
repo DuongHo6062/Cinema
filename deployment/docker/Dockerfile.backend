@@ -1,0 +1,30 @@
+# Stage 1: Build .NET 8 Web API
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copy project files and restore dependencies
+COPY ["MovieStreaming.csproj", "./"]
+RUN dotnet restore "MovieStreaming.csproj"
+
+# Copy source code and publish release
+COPY . .
+RUN dotnet publish "MovieStreaming.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+# Stage 2: Minimal Runtime Container
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS final
+WORKDIR /app
+
+# Install libstdc++ and icu-libs for globalization on Alpine
+RUN apk add --no-cache icu-libs
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+
+# Run as non-root user for security
+USER $APP_UID
+
+COPY --from=build /app/publish .
+
+ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_ENVIRONMENT=Production
+EXPOSE 8080
+
+ENTRYPOINT ["dotnet", "MovieStreaming.dll"]

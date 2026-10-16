@@ -1,0 +1,143 @@
+.rating-widget {
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  margin: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.rating-widget-overview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.rating-score-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rating-score-number {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 32px;
+  font-weight: 800;
+  color: #fff;
+  font-family: var(--font-heading);
+}
+
+.rating-score-total {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.rating-interactive-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rating-prompt {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.rating-stars-row {
+  display: flex;
+  gap: 4px;
+}
+
+.rating-star-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  transition: transform var(--transition-fast);
+}
+
+.rating-star-btn:hover {
+  transform: scale(1.2);
+}
+
+.rating-remove-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #f87171;
+  margin-top: 4px;
+  align-self: flex-start;
+  transition: opacity var(--transition-fast);
+}
+
+.rating-remove-btn:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.rating-feedback-msg {
+  font-size: 12px;
+  color: #34d399;
+  font-weight: 500;
+}
+
+/* Distribution */
+.rating-distribution-section {
+  border-top: 1px solid var(--border-color);
+  padding-top: 16px;
+}
+
+.distribution-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.distribution-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.distribution-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.dist-score-label {
+  width: 28px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-align: right;
+}
+
+.dist-track {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.dist-fill {
+  height: 100%;
+  background: var(--star-color);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.dist-count {
+  width: 32px;
+  color: var(--text-muted);
+  font-size: 11px;
+}

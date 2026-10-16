@@ -1,0 +1,427 @@
+@MovieStreaming_HostAddress = http://localhost:5000
+
+### Health Check
+GET {{MovieStreaming_HostAddress}}/api/health
+Accept: application/json
+
+### PHASE 4 — Get Movies (Default Paged)
+GET {{MovieStreaming_HostAddress}}/api/movies?page=1&pageSize=20
+Accept: application/json
+
+### PHASE 4 — Search Movies by Keyword
+GET {{MovieStreaming_HostAddress}}/api/movies?search=sam
+Accept: application/json
+
+### PHASE 4 — Filter Movies by Genre (ID or Slug)
+GET {{MovieStreaming_HostAddress}}/api/movies?genre=hanh-dong
+Accept: application/json
+
+### PHASE 4 — Filter Movies by Release Year
+GET {{MovieStreaming_HostAddress}}/api/movies?year=2026
+Accept: application/json
+
+### PHASE 4 — Filter Movies by Type (single / series)
+GET {{MovieStreaming_HostAddress}}/api/movies?type=series
+Accept: application/json
+
+### PHASE 4 — Sort Movies (newest / oldest / rating / title)
+GET {{MovieStreaming_HostAddress}}/api/movies?sortBy=rating&page=1&pageSize=10
+Accept: application/json
+
+### PHASE 4 — Combined Filtering
+GET {{MovieStreaming_HostAddress}}/api/movies?search=sam&year=2026&type=series&sortBy=newest&page=1&pageSize=10
+Accept: application/json
+
+### PHASE 4 — Get Movie Details By ID
+GET {{MovieStreaming_HostAddress}}/api/movies/2
+Accept: application/json
+
+### PHASE 4 — Get Movie Details By Slug
+GET {{MovieStreaming_HostAddress}}/api/movies/slug/anh-sam-cua-em
+Accept: application/json
+
+### PHASE 4 — Get All Genres
+GET {{MovieStreaming_HostAddress}}/api/genres
+Accept: application/json
+
+### PHASE 4 — Get Genre By ID
+GET {{MovieStreaming_HostAddress}}/api/genres/1
+Accept: application/json
+
+### PHASE 5 — Get Movie Episodes (Lightweight Ordered List)
+GET {{MovieStreaming_HostAddress}}/api/movies/2/episodes
+Accept: application/json
+
+### PHASE 5 — Get Specific Episode of a Movie
+GET {{MovieStreaming_HostAddress}}/api/movies/2/episodes/2
+Accept: application/json
+
+### PHASE 5 — Get Episode Details By Episode ID
+GET {{MovieStreaming_HostAddress}}/api/episodes/2
+Accept: application/json
+
+### PHASE 5 — Get Episode Playback Sources (HLS .m3u8 & multiple servers)
+GET {{MovieStreaming_HostAddress}}/api/episodes/2/sources
+Accept: application/json
+
+### PHASE 2 — Search KKPhim External Movies
+GET {{MovieStreaming_HostAddress}}/api/import/kkphim/search?keyword=sam
+Accept: application/json
+
+### PHASE 2 — Test External Movie Detail (Preview without DB save)
+GET {{MovieStreaming_HostAddress}}/api/import/kkphim/test/anh-sam-cua-em
+Accept: application/json
+
+### PHASE 2 — Import Movie from KKPhim into SQL Server
+POST {{MovieStreaming_HostAddress}}/api/import/kkphim/movie/anh-sam-cua-em
+Accept: application/json
+
+### PHASE 3 — Register New User
+POST {{MovieStreaming_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "demouser",
+  "email": "demo@example.com",
+  "password": "DemoPassword123!"
+}
+
+### PHASE 3 — Login (Get Access & Refresh Tokens)
+# @name login
+POST {{MovieStreaming_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "usernameOrEmail": "demouser",
+  "password": "DemoPassword123!"
+}
+
+### PHASE 3 — Get Current User Profile (Requires Bearer token)
+GET {{MovieStreaming_HostAddress}}/api/users/me
+Authorization: Bearer {{login.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 3 — Test Authenticated Endpoint
+GET {{MovieStreaming_HostAddress}}/api/auth/test
+Authorization: Bearer {{login.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 3 — Test Admin Authorization
+GET {{MovieStreaming_HostAddress}}/api/auth/admin-test
+Authorization: Bearer {{login.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 3 — Refresh Token (Rotation)
+POST {{MovieStreaming_HostAddress}}/api/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "{{login.response.body.refreshToken}}"
+}
+
+### PHASE 3 — Change Password
+POST {{MovieStreaming_HostAddress}}/api/users/change-password
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.accessToken}}
+
+{
+  "currentPassword": "DemoPassword123!",
+  "newPassword": "NewDemoPassword456!"
+}
+
+### PHASE 3 — Logout (Revoke Refresh Token)
+POST {{MovieStreaming_HostAddress}}/api/auth/logout
+Content-Type: application/json
+
+{
+  "refreshToken": "{{login.response.body.refreshToken}}"
+}
+
+### =========================================================================
+### PHASE 6 — WATCH HISTORY & FAVORITES
+### =========================================================================
+
+### PHASE 6 — Save Watch Progress (Episode 8, Progress 523s / 1440s)
+POST {{MovieStreaming_HostAddress}}/api/watch-history
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.accessToken}}
+
+{
+  "episodeId": 8,
+  "progressSeconds": 523,
+  "durationSeconds": 1440
+}
+
+### PHASE 6 — Get Watch History (Paged)
+GET {{MovieStreaming_HostAddress}}/api/watch-history?page=1&pageSize=20
+Authorization: Bearer {{login.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 6 — Get Continue Watching (Incomplete episodes only)
+GET {{MovieStreaming_HostAddress}}/api/watch-history/continue?limit=20
+Authorization: Bearer {{login.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 6 — Delete an Episode from Watch History
+DELETE {{MovieStreaming_HostAddress}}/api/watch-history/8
+Authorization: Bearer {{login.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 6 — Clear All Watch History
+DELETE {{MovieStreaming_HostAddress}}/api/watch-history
+Authorization: Bearer {{login.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 6 — Add Movie to Favorites (Movie 2)
+POST {{MovieStreaming_HostAddress}}/api/favorites/2
+Authorization: Bearer {{login.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 6 — Check Favorite Status (Movie 2)
+GET {{MovieStreaming_HostAddress}}/api/favorites/2/status
+Authorization: Bearer {{login.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 6 — Get User Favorites (Paged)
+GET {{MovieStreaming_HostAddress}}/api/favorites?page=1&pageSize=20
+Authorization: Bearer {{login.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 6 — Remove Movie from Favorites (Movie 2)
+DELETE {{MovieStreaming_HostAddress}}/api/favorites/2
+Authorization: Bearer {{login.response.body.accessToken}}
+Accept: application/json
+
+### =========================================================================
+### PHASE 7 — RATINGS & COMMENTS
+### =========================================================================
+
+### PHASE 7 — Add or Update Rating for Movie 2 (Score 1-10)
+POST {{MovieStreaming_HostAddress}}/api/movies/2/rating
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.accessToken}}
+
+{
+  "rating": 9
+}
+
+### PHASE 7 — Get Current User's Rating for Movie 2
+GET {{MovieStreaming_HostAddress}}/api/movies/2/rating/me
+Authorization: Bearer {{login.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 7 — Get Public Rating Summary & Distribution for Movie 2
+GET {{MovieStreaming_HostAddress}}/api/movies/2/rating-summary
+Accept: application/json
+
+### PHASE 7 — Delete Current User's Rating for Movie 2
+DELETE {{MovieStreaming_HostAddress}}/api/movies/2/rating
+Authorization: Bearer {{login.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 7 — Add Comment to Movie 2
+POST {{MovieStreaming_HostAddress}}/api/movies/2/comments
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.accessToken}}
+
+{
+  "content": "This movie was absolutely amazing and worth watching!"
+}
+
+### PHASE 7 — Get Comments for Movie 2 (Paged, Newest First)
+GET {{MovieStreaming_HostAddress}}/api/movies/2/comments?page=1&pageSize=20
+Authorization: Bearer {{login.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 7 — Edit Own Comment (Comment ID 1)
+PUT {{MovieStreaming_HostAddress}}/api/comments/1
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.accessToken}}
+
+{
+  "content": "Updated comment: Still one of the best shows I've watched recently."
+}
+
+### PHASE 7 — Delete Own Comment (Comment ID 1)
+DELETE {{MovieStreaming_HostAddress}}/api/comments/1
+Authorization: Bearer {{login.response.body.accessToken}}
+Accept: application/json
+
+### =========================================================================
+### PHASE 8 — ADMIN DASHBOARD APIs (Requires Admin Role Bearer Token)
+### =========================================================================
+
+### PHASE 8 — Login as Admin
+# @name adminLogin
+POST {{MovieStreaming_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "usernameOrEmail": "phase8admin",
+  "password": "AdminPassword123!"
+}
+
+### PHASE 8 — Admin Dashboard Statistics
+GET {{MovieStreaming_HostAddress}}/api/admin/dashboard
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 8 — Admin Recent Activity
+GET {{MovieStreaming_HostAddress}}/api/admin/dashboard/recent
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 8 — Get Admin Movies (Paged, Search, Filter)
+GET {{MovieStreaming_HostAddress}}/api/admin/movies?page=1&pageSize=10&sortBy=newest
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 8 — Get Admin Movie Detail By ID
+GET {{MovieStreaming_HostAddress}}/api/admin/movies/2
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 8 — Create Movie
+POST {{MovieStreaming_HostAddress}}/api/admin/movies
+Content-Type: application/json
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+
+{
+  "title": "New Admin Movie",
+  "slug": "new-admin-movie",
+  "originalTitle": "New Admin Movie Original",
+  "description": "Created via Admin Dashboard API",
+  "releaseYear": 2026,
+  "duration": 120,
+  "movieType": "series",
+  "status": "ongoing",
+  "quality": "HD",
+  "language": "Vietsub",
+  "country": "Vietnam",
+  "genreIds": [1, 2]
+}
+
+### PHASE 8 — Update Movie
+PUT {{MovieStreaming_HostAddress}}/api/admin/movies/2
+Content-Type: application/json
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+
+{
+  "title": "Updated Movie Title",
+  "description": "Updated movie description",
+  "status": "completed",
+  "quality": "FHD",
+  "genreIds": [1, 2]
+}
+
+### PHASE 8 — Delete Movie
+DELETE {{MovieStreaming_HostAddress}}/api/admin/movies/5
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+
+### PHASE 8 — Get Admin Genres
+GET {{MovieStreaming_HostAddress}}/api/admin/genres
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 8 — Create Genre
+POST {{MovieStreaming_HostAddress}}/api/admin/genres
+Content-Type: application/json
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+
+{
+  "name": "Admin Mystery",
+  "description": "Mystery and suspense"
+}
+
+### PHASE 8 — Get Admin Categories
+GET {{MovieStreaming_HostAddress}}/api/admin/categories
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 8 — Get Admin Movie Episodes
+GET {{MovieStreaming_HostAddress}}/api/admin/movies/2/episodes
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 8 — Create Movie Episode
+POST {{MovieStreaming_HostAddress}}/api/admin/movies/2/episodes
+Content-Type: application/json
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+
+{
+  "episodeNumber": 1,
+  "title": "Tập 01",
+  "duration": 45
+}
+
+### PHASE 8 — Add Episode Source
+POST {{MovieStreaming_HostAddress}}/api/admin/episodes/2/sources
+Content-Type: application/json
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+
+{
+  "serverName": "VIP Server 1",
+  "language": "Vietsub",
+  "sourceType": "m3u8",
+  "videoUrl": "https://cdn.example.com/hls/ep2/index.m3u8"
+}
+
+### PHASE 8 — Get Admin Users
+GET {{MovieStreaming_HostAddress}}/api/admin/users?page=1&pageSize=10
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 8 — Update User Status (Activate/Deactivate)
+PUT {{MovieStreaming_HostAddress}}/api/admin/users/1/status
+Content-Type: application/json
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+
+{
+  "isActive": false
+}
+
+### PHASE 8 — Update User Role
+PUT {{MovieStreaming_HostAddress}}/api/admin/users/1/role
+Content-Type: application/json
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+
+{
+  "roleId": 2
+}
+
+### PHASE 8 — Get Admin Comments Moderation
+GET {{MovieStreaming_HostAddress}}/api/admin/comments?page=1&pageSize=10
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 8 — Delete Comment (Moderation)
+DELETE {{MovieStreaming_HostAddress}}/api/admin/comments/1
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+
+### PHASE 8 — Get Admin Ratings Monitoring
+GET {{MovieStreaming_HostAddress}}/api/admin/ratings?page=1&pageSize=10
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+Accept: application/json
+
+### PHASE 8 — Trigger KKPhim Movie Import
+POST {{MovieStreaming_HostAddress}}/api/admin/import/kkphim/movie/anh-sam-cua-em
+Authorization: Bearer {{adminLogin.response.body.accessToken}}
+Accept: application/json
+
+### =========================================================================
+### PHASE 9 — RECOMMENDATION SYSTEM APIs
+### =========================================================================
+
+### PHASE 9 — Get Similar Movies (Public)
+GET {{MovieStreaming_HostAddress}}/api/movies/2/similar?page=1&pageSize=10
+Accept: application/json
+
+### PHASE 9 — Get Public Recommendations (Cold-Start / Anonymous)
+GET {{MovieStreaming_HostAddress}}/api/recommendations/public?page=1&pageSize=10
+Accept: application/json
+
+### PHASE 9 — Get Personalized Recommendations (Requires User JWT Bearer Token)
+GET {{MovieStreaming_HostAddress}}/api/recommendations?page=1&pageSize=10&excludeConsumed=true
+Authorization: Bearer {{login.response.body.accessToken}}
+Accept: application/json
+

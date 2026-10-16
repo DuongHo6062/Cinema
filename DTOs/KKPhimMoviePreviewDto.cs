@@ -1,0 +1,24 @@
+namespace MovieStreaming.DTOs;
+
+public class KKPhimMoviePreviewDto
+{
+    public string ExternalId { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
+    public string Slug { get; set; } = string.Empty;
+    public string? OriginalTitle { get; set; }
+    public string? Description { get; set; }
+    public string? PosterUrl { get; set; }
+    public string? ThumbnailUrl { get; set; }
+    public int? ReleaseYear { get; set; }
+    public int? Duration { get; set; }
+    public string? Country { get; set; }
+    public string? Language { get; set; }
+    public string? MovieType { get; set; }
+    public string? Status { get; set; }
+    public string? Quality { get; set; }
+    public decimal? Rating { get; set; }
+    public List<string> Genres { get; set; } = new();
+    public int TotalServerCount { get; set; }
+    public List<string> ServerNames { get; set; } = new();
+    public int TotalEpisodesReported { get; set; }
+}

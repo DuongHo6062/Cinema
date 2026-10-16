@@ -1,0 +1,39 @@
+.favorites-page {
+  padding-top: 100px;
+  padding-bottom: 60px;
+  min-height: 80vh;
+}
+
+.favorites-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.favorites-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.favorites-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.favorites-count {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-color);
+  background: rgba(255, 42, 84, 0.1);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 42, 84, 0.25);
+}

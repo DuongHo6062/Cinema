@@ -1,0 +1,38 @@
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px 18px;
+  width: 100%;
+}
+
+@media (max-width: 1280px) {
+  .movie-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px 16px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .movie-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .movie-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px 12px;
+  }
+}
+
+@media (max-width: 520px) {
+  .movie-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 10px;
+  }
+}
+
+.movie-grid-item {
+  width: 100%;
+}

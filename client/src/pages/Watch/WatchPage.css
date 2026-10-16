@@ -1,0 +1,155 @@
+.watch-page {
+  padding-top: 84px;
+  padding-bottom: 60px;
+  min-height: 100vh;
+}
+
+.watch-cinema-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.watch-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.breadcrumb-link {
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.breadcrumb-link:hover {
+  color: #fff;
+}
+
+.breadcrumb-sep {
+  opacity: 0.5;
+}
+
+.breadcrumb-current {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.watch-player-box {
+  width: 100%;
+}
+
+.watch-ep-nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.watch-ep-nav-left {
+  display: flex;
+  gap: 12px;
+}
+
+.watch-nav-btn {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.watch-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.watch-info-btn {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.watch-meta-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+@media (max-width: 960px) {
+  .watch-meta-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.watch-main-info {
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.watch-movie-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.watch-movie-original {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-top: -6px;
+}
+
+.watch-movie-tags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.watch-movie-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #cbd5e1;
+}
+
+.watch-episodes-sidebar {
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 580px;
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.watch-similar-wrap {
+  margin-top: 20px;
+}
+
+.watch-comments-wrap {
+  margin-top: 10px;
+}
+
+.watch-player-skeleton {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+}
